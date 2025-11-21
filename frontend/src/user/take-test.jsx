@@ -2,84 +2,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 
-// Proctoring imports
-import * as tf from '@tensorflow/tfjs';
-import * as blazeface from '@tensorflow-models/blazeface';
-
 const JUDGE0_LANGS = {
   python: 71, javascript: 63, cpp: 53, java: 62,
 };
-
-function useProctoring(logResults = false) {
-  const [facePresent, setFacePresent] = useState(true);
-  const [log, setLog] = useState([]);
-  const [camDenied, setCamDenied] = useState(false);
-  const [violations, setViolations] = useState(0);
-  const [proctorOverlay, setProctorOverlay] = useState(null);
-  useEffect(() => {
-    let model, interval, stopped=false;
-    let absentSince = null;
-    async function runFaceDetection() {
-      try {
-        model = await blazeface.load();
-        const video = document.createElement('video');
-        video.autoplay = true;
-        video.width = 160;
-        video.height = 120;
-        video.playsInline = true;
-        video.style.position = 'fixed';
-        video.style.bottom = '16px';
-        video.style.right = '16px';
-        video.style.opacity = '0.7';
-        video.style.zIndex = '99999';
-        document.body.appendChild(video);
-        setProctorOverlay(video);
-        navigator.mediaDevices.getUserMedia({ video: true })
-          .then((stream) => {
-            video.srcObject = stream;
-          })
-          .catch(() => {
-            setCamDenied(true);
-            setFacePresent(false);
-            setLog(l => [...l, { ts: new Date(), type: 'error', msg: 'Camera permission denied' }]);
-          });
-        interval = setInterval(async () => {
-          if (video.readyState >= 2) {
-            const predictions = await model.estimateFaces(video, false);
-            if (predictions.length > 0) {
-              setFacePresent(true);
-              absentSince = null;
-            } else {
-              if (!absentSince) absentSince = Date.now();
-              else if (Date.now() - absentSince > 3000) {
-                setFacePresent(false);
-                setLog(l => l.length === 0 || l[l.length-1]?.type!=='face' ? [...l, { ts: new Date(), type: 'face', msg: 'Face not detected' }] : l);
-                setViolations(v => v + 1);
-              }
-            }
-          }
-        }, 1000);
-      } catch (e) { setCamDenied(true); setFacePresent(false); }
-    }
-    runFaceDetection();
-    // Tab events
-    let alerted = false;
-    const onBlur = () => {
-      setLog(l => [...l, { ts: new Date(), type: 'tab', msg: 'Tab switched/blur' }]);
-      if (!alerted) { alerted = true; window.alert('Tab switch detected! This is monitored'); }
-      setViolations(v => v + 1);
-    };
-    window.addEventListener('blur', onBlur);
-    // Cleanup
-    return () => {
-      stopped = true;
-      if (interval) clearInterval(interval);
-      if (proctorOverlay) try { proctorOverlay.remove(); } catch(_){}
-      window.removeEventListener('blur', onBlur);
-    };
-  }, []);
-  return { facePresent, camDenied, log, violations };
-}
 
 export default function TakeTest() {
   const { id } = useParams();
@@ -95,8 +20,6 @@ export default function TakeTest() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
-
-  const proctor = useProctoring();
 
   useEffect(() => {
     if (!token) { navigate("/login"); return; }
@@ -176,10 +99,12 @@ export default function TakeTest() {
     try {
       setSubmitting(true);
       let payload;
+      const penalty = 0;
+      const proctoringLog = [];
       if (test.type === "coding") {
-        payload = { answers: Object.entries(userCodes).map(([k, v]) => ({ index: Number(k), code: v.code, language: v.language })), penalty: proctor.violations, proctoringLog: proctor.log };
+        payload = { answers: Object.entries(userCodes).map(([k, v]) => ({ index: Number(k), code: v.code, language: v.language })), penalty, proctoringLog };
       } else {
-        payload = { answers: Object.entries(answers).map(([k, v]) => ({ index: Number(k), answer: v })), penalty: proctor.violations, proctoringLog: proctor.log };
+        payload = { answers: Object.entries(answers).map(([k, v]) => ({ index: Number(k), answer: v })), penalty, proctoringLog };
       }
       const res = await axios.post(`http://localhost:5000/api/tests/${test._id}/submit`, payload, {
         headers: { Authorization: `Bearer ${token}` },
@@ -200,15 +125,6 @@ export default function TakeTest() {
   if (test.type === "coding") {
     return (
       <div className="min-h-screen bg-gray-900 text-white p-6 pt-20">
-        {/* Proctoring Overlay */}
-        <div className="fixed top-10 left-0 w-full px-6 z-40 flex items-center gap-4 bg-black/70 border-b border-cyan-400">
-          <span className="text-cyan-300 font-bold">AI Proctored</span>
-          {proctor.camDenied ? (
-            <span className="text-red-400">Camera access denied – required for integrity</span>
-          ) : (
-            <span className={`px-3 py-1 rounded font-bold ${proctor.facePresent? 'bg-green-800 text-green-200':'bg-red-800 text-red-200'}`}>{proctor.facePresent? 'Face Present':'No Face Found!'}</span>
-          )}
-        </div>
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-bold mb-2">{test.name}</h1>
           <p className="text-gray-300 mb-8">{test.subject} • {test.difficulty} • {total} coding questions</p>
@@ -284,15 +200,6 @@ export default function TakeTest() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6 pt-20">
-      {/* Proctoring Overlay */}
-      <div className="fixed top-10 left-0 w-full px-6 z-40 flex items-center gap-4 bg-black/70 border-b border-cyan-400">
-        <span className="text-cyan-300 font-bold">AI Proctored</span>
-        {proctor.camDenied ? (
-          <span className="text-red-400">Camera access denied – required for integrity</span>
-        ) : (
-          <span className={`px-3 py-1 rounded font-bold ${proctor.facePresent? 'bg-green-800 text-green-200':'bg-red-800 text-red-200'}`}>{proctor.facePresent? 'Face Present':'No Face Found!'}</span>
-        )}
-      </div>
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold">{test.name}</h1>
         <p className="text-gray-300">{test.subject} • {test.difficulty} • {total} questions</p>
@@ -344,15 +251,6 @@ export default function TakeTest() {
           </form>
         )}
       </div>
-      {/* At result, show proctor logs for review: */}
-      {result && (
-      <div className="mt-4 bg-gray-800 p-4 rounded-xl border border-gray-600">
-        <b className="text-cyan-300">Proctoring Log:</b>
-        <ul className="mt-2 text-xs text-gray-400 list-disc list-inside">
-          {proctor.log.map((entry,i)=><li key={i}>{entry.ts.toLocaleString()} &mdash; {entry.msg}</li>)}
-        </ul>
-      </div>
-      )}
     </div>
   );
 }

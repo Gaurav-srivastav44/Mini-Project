@@ -27,7 +27,7 @@ export default function Leaderboard() {
 
   return (
     <div className="p-6 min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-bold text-center mb-8 flex justify-center items-center gap-2 text-yellow-600">
+      <h1 className="text-3xl font-bold text-center m-8 flex justify-center items-center gap-2 text-yellow-600">
         <FaTrophy className="text-yellow-500 text-4xl" /> Leaderboard
       </h1>
 

@@ -49,7 +49,7 @@ export default function AITest() {
   if (!state) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-900 text-white">
-        <h1 className="text-3xl font-bold mb-4">AI Test Not Available</h1>
+        <h1 className="text-3xl font-bold m-4">AI Test Not Available</h1>
         <p className="text-center text-gray-300">
           AI-based test creation is currently not working. Please try again later.
         </p>
@@ -59,7 +59,7 @@ export default function AITest() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-900 text-white">
-      <h1 className="text-3xl font-bold mb-4">AI Generated Test</h1>
+      <h1 className="text-3xl font-bold m-4">AI Generated Test</h1>
       <p className="mb-6">
         Subject: {state.subject}, Difficulty: {state.difficulty}, Number of Questions: {state.questions}
       </p>
