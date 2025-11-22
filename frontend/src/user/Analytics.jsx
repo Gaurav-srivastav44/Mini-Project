@@ -13,7 +13,7 @@ export default function Analytics() {
   useEffect(() => {
     const run = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/analytics/mine", {
+        const res = await fetch("https://mini-project-2-mwwk.onrender.com/api/analytics/mine", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const json = await res.json();

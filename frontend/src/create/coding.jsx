@@ -51,7 +51,7 @@ export default function CreateCoding() {
         numberOfQuestions: codingQuestions.length,
         questions: codingQuestions,
       };
-      const res = await fetch("http://localhost:5000/api/tests", {
+      const res = await fetch("https://mini-project-2-mwwk.onrender.com/api/tests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

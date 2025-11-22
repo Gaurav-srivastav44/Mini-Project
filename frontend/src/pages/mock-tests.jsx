@@ -11,7 +11,7 @@ export default function MockTest() {
   const [error, setError] = useState("");
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost:5000/api/tests", {
+    fetch("https://mini-project-2-mwwk.onrender.com/api/tests", {
       headers: token ? { Authorization: `Bearer ${token}` } : undefined,
     })
       .then((res) => res.json())

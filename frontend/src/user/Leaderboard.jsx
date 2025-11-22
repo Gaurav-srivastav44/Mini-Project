@@ -11,7 +11,7 @@ export default function Leaderboard() {
   useEffect(() => {
     const run = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/leaderboard/xp", {
+        const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/leaderboard/xp", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setRows(res.data || []);

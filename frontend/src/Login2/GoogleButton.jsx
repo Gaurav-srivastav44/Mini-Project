@@ -17,7 +17,7 @@ export default function GoogleButton({ role = "user" }) {
         client_id: CLIENT_ID,
         callback: async (response) => {
           try {
-            const res = await fetch("http://localhost:5000/api/auth/google", {
+            const res = await fetch("https://mini-project-2-mwwk.onrender.com/api/auth/google", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ idToken: response.credential, role }),

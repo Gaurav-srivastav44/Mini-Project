@@ -12,7 +12,7 @@ export default function UserAssignments() {
   useEffect(() => {
     const run = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/assignments", {
+        const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/assignments", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAssignments(res.data || []);
@@ -32,7 +32,7 @@ export default function UserAssignments() {
     try {
       const form = new FormData();
       form.append("file", file);
-      await axios.post(`http://localhost:5000/api/assignments/${selected}/submit`, form, {
+      await axios.post(`https://mini-project-2-mwwk.onrender.com/api/assignments/${selected}/submit`, form, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
       });
       alert("Submitted!");
@@ -62,7 +62,7 @@ export default function UserAssignments() {
                 </div>
               </div>
               {a.file && (
-                <a className="text-sm text-teal-300 underline" href={`http://localhost:5000/uploads/${a.file}`} target="_blank" rel="noreferrer">Download</a>
+                <a className="text-sm text-teal-300 underline" href={`https://mini-project-2-mwwk.onrender.com/uploads/${a.file}`} target="_blank" rel="noreferrer">Download</a>
               )}
               <form onSubmit={submit} className="mt-4 flex items-center gap-3">
                 <input type="file" onChange={e => setFile(e.target.files?.[0] || null)} className="text-sm" />

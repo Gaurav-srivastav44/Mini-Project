@@ -12,7 +12,7 @@ export default function TestResults() {
   useEffect(() => {
     const run = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/tests/${id}/results`, {
+        const res = await fetch(`https://mini-project-2-mwwk.onrender.com/api/tests/${id}/results`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const json = await res.json();

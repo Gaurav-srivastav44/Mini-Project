@@ -19,7 +19,7 @@ export default function AITest() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/generate-questions", {
+      const response = await fetch("https://mini-project-2-mwwk.onrender.com/api/generate-questions", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export default function AITest() {
         questions: aiQuestions,
       };
 
-      const res = await fetch("http://localhost:5000/api/tests/create-ai-test", {
+      const res = await fetch("https://mini-project-2-mwwk.onrender.com/api/tests/create-ai-test", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

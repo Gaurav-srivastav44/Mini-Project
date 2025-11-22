@@ -12,7 +12,7 @@ export default function ReviewSubmissions() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/review-submissions", {
+      .get("https://mini-project-2-mwwk.onrender.com/api/review-submissions", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setSubmissions(res.data.submissions || []))
@@ -26,7 +26,7 @@ export default function ReviewSubmissions() {
   const handleReview = (id, status) => {
     axios
       .post(
-        `http://localhost:5000/api/review/${id}`,
+        `https://mini-project-2-mwwk.onrender.com/api/review/${id}`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       )

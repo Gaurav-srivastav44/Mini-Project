@@ -45,7 +45,7 @@ export default function AdminResources() {
   const fetchResources = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/resources", {
+      const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/resources", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setResources(res.data || []);
@@ -61,14 +61,14 @@ export default function AdminResources() {
     try {
       if (editingId) {
         await axios.put(
-          `http://localhost:5000/api/resources/${editingId}`,
+          `https://mini-project-2-mwwk.onrender.com/api/resources/${editingId}`,
           formData,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
       } else {
-        await axios.post("http://localhost:5000/api/resources", formData, {
+        await axios.post("https://mini-project-2-mwwk.onrender.com/api/resources", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
       }
@@ -94,7 +94,7 @@ export default function AdminResources() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this resource?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/resources/${id}`, {
+      await axios.delete(`https://mini-project-2-mwwk.onrender.com/api/resources/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchResources();

@@ -29,7 +29,7 @@ export default function CreateAssignment() {
     try {
       setLoading(true);
 
-      await axios.post("http://localhost:5000/api/assignments", formData, {
+      await axios.post("https://mini-project-2-mwwk.onrender.com/api/assignments", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

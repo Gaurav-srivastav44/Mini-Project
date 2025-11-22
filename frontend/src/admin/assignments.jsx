@@ -47,7 +47,7 @@ export default function Assignments() {
     const fetchAssignments = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/assignments", {
+        const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/assignments", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAssignments(res.data);

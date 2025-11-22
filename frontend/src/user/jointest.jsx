@@ -29,7 +29,7 @@ export default function JoinTest() {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/tests/public/by-code/${encodeURIComponent(testCode)}`,
+        `https://mini-project-2-mwwk.onrender.com/api/tests/public/by-code/${encodeURIComponent(testCode)}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

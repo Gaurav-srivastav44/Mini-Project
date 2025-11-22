@@ -16,7 +16,7 @@ export default function AdminTests() {
     }
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/tests/mine", {
+      const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/tests/mine", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTests(res.data || []);

@@ -11,7 +11,7 @@ export default function AuthProvider({ children }) {
     const loadUser = async () => {
       if (!token) return;
       try {
-        const res = await axios.get("http://localhost:5000/api/auth/me", {
+        const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUser(res.data.user);

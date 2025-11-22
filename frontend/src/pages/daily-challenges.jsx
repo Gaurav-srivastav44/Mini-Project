@@ -13,7 +13,7 @@ export default function DailyChallenges() {
   useEffect(() => {
     const run = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/challenges/today", {
+        const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/challenges/today", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setChallenge(res.data);
@@ -39,7 +39,7 @@ export default function DailyChallenges() {
         : { answer };
       
       const res = await axios.post(
-        `http://localhost:5000/api/challenges/${challenge._id}/attempt`,
+        `https://mini-project-2-mwwk.onrender.com/api/challenges/${challenge._id}/attempt`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

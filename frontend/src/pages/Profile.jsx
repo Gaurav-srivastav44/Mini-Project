@@ -17,7 +17,7 @@ export default function Profile() {
   useEffect(() => {
     const run = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/auth/me", {
+        const res = await fetch("https://mini-project-2-mwwk.onrender.com/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const json = await res.json();
@@ -69,7 +69,7 @@ export default function Profile() {
             <button
               className="bg-blue-600 px-4 py-2 rounded mr-2 hover:bg-blue-700"
               onClick={async () => {
-                await fetch("http://localhost:5000/api/auth/update", {
+                await fetch("https://mini-project-2-mwwk.onrender.com/api/auth/update", {
                   method: "PUT",
                   headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
                   body: JSON.stringify(form),
@@ -111,7 +111,7 @@ export default function Profile() {
             <button
               className="bg-green-600 px-4 py-2 rounded mr-2 hover:bg-green-700"
               onClick={async () => {
-                await fetch("http://localhost:5000/api/auth/change-password", {
+                await fetch("https://mini-project-2-mwwk.onrender.com/api/auth/change-password", {
                   method: "PUT",
                   headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
                   body: JSON.stringify(passwordForm),

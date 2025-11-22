@@ -36,7 +36,7 @@ export default function AdminDailyChallenges() {
   const fetchChallenges = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/challenges", {
+      const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/challenges", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setChallenges(res.data || []);
@@ -73,14 +73,14 @@ export default function AdminDailyChallenges() {
 
       if (editingId) {
         await axios.put(
-          `http://localhost:5000/api/challenges/${editingId}`,
+          `https://mini-project-2-mwwk.onrender.com/api/challenges/${editingId}`,
           challengeData,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
       } else {
-        await axios.post("http://localhost:5000/api/challenges", challengeData, {
+        await axios.post("https://mini-project-2-mwwk.onrender.com/api/challenges", challengeData, {
           headers: { Authorization: `Bearer ${token}` },
         });
       }
@@ -114,7 +114,7 @@ export default function AdminDailyChallenges() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this challenge?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/challenges/${id}`, {
+      await axios.delete(`https://mini-project-2-mwwk.onrender.com/api/challenges/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchChallenges();

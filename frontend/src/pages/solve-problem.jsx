@@ -12,7 +12,7 @@ export default function SolveProblem() {
 
   useEffect(() => {
     const run = async () => {
-      const res = await fetch(`http://localhost:5000/api/problems/${id}`, {
+      const res = await fetch(`https://mini-project-2-mwwk.onrender.com/api/problems/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const json = await res.json();
@@ -29,7 +29,7 @@ export default function SolveProblem() {
 
   const submit = async () => {
     setMsg("");
-    const res = await fetch(`http://localhost:5000/api/problems/${id}/submit`, {
+    const res = await fetch(`https://mini-project-2-mwwk.onrender.com/api/problems/${id}/submit`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ code, language }),

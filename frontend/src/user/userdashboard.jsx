@@ -37,7 +37,7 @@ export default function UserDashboard() {
       if (!token) return;
 
       try {
-        const res = await axios.get("http://localhost:5000/api/auth/me", {
+        const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/auth/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -59,7 +59,7 @@ export default function UserDashboard() {
       }
 
       try {
-        const res = await axios.get("http://localhost:5000/api/tests/results/mine", {
+        const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/tests/results/mine", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setResults(res.data || []);
@@ -81,7 +81,7 @@ export default function UserDashboard() {
       }
 
       try {
-        const res = await axios.get("http://localhost:5000/api/assignments", {
+        const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/assignments", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAssignments(res.data || []);
@@ -380,7 +380,7 @@ export default function UserDashboard() {
                   </p>
                   {assignment.file && (
                     <a
-                      href={`http://localhost:5000/uploads/${assignment.file}`}
+                      href={`https://mini-project-2-mwwk.onrender.com/uploads/${assignment.file}`}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-sm font-semibold transition"
@@ -444,7 +444,7 @@ export default function UserDashboard() {
           © {new Date().getFullYear()} EvalEra |
           <span className="text-cyan-400 font-semibold">
             {" "}
-            Empowering AI Learning
+            Empowering AI Learning with Gaurav Srivastav
           </span>{" "}
           🚀
         </footer>

@@ -43,7 +43,7 @@ export default function CreateMCQ() {
         type: "mcq",
         questions: questions.map(q => ({ question: q.question, options: q.options, correctAnswer: q.correctAnswer })),
       };
-      const res = await axios.post("http://localhost:5000/api/tests", payload, {
+      const res = await axios.post("https://mini-project-2-mwwk.onrender.com/api/tests", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert(`Test created. Code: ${res.data?.code}`);

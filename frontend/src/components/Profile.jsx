@@ -19,7 +19,7 @@ export default function Profile() {
       const token = localStorage.getItem("token");
       if (!token) return navigate("/login");
 
-      const res = await fetch("http://localhost:5000/api/profile", {
+      const res = await fetch("https://mini-project-2-mwwk.onrender.com/api/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
 

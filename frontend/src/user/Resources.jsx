@@ -96,7 +96,7 @@ export default function Resources() {
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/resources", {
+        const res = await axios.get("https://mini-project-2-mwwk.onrender.com/api/resources", {
           headers: { Authorization: `Bearer ${token}` },
         });
 

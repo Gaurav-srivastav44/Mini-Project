@@ -42,7 +42,7 @@ export default function TeacherDashboard() {
 
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/dashboard", {
+      .get("https://mini-project-2-mwwk.onrender.com/api/dashboard", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -63,14 +63,14 @@ export default function TeacherDashboard() {
 
     // Fetch my tests list for preview
     axios
-      .get("http://localhost:5000/api/tests/mine", {
+      .get("https://mini-project-2-mwwk.onrender.com/api/tests/mine", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setMyTests(res.data || []))
       .catch(() => setMyTests([]));
 
     axios
-      .get("http://localhost:5000/api/assignments/mine", {
+      .get("https://mini-project-2-mwwk.onrender.com/api/assignments/mine", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setMyAssignments(res.data || []))
@@ -349,7 +349,7 @@ export default function TeacherDashboard() {
                   {a.file && (
                     <a
                       className="text-sm text-purple-300 hover:text-purple-200 underline"
-                      href={`http://localhost:5000/uploads/${a.file}`}
+                      href={`https://mini-project-2-mwwk.onrender.com/uploads/${a.file}`}
                       target="_blank" rel="noreferrer"
                     >
                       View File
@@ -365,7 +365,7 @@ export default function TeacherDashboard() {
         <footer className="text-center mt-20 text-gray-500 text-sm md:text-base border-t border-gray-700 pt-6">
           © {new Date().getFullYear()} EvalEra |{" "}
           <span className="font-semibold text-purple-400">
-            Empowering AI-Powered Learning
+            Empowering AI-Powered Learning with Gaurav Srivastav
           </span>{" "}
           🚀
         </footer>

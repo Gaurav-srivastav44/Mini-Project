@@ -16,7 +16,7 @@ export default function Problems() {
       const q = new URLSearchParams();
       if (category) q.set("category", category);
       if (difficulty) q.set("difficulty", difficulty);
-      const res = await fetch(`http://localhost:5000/api/problems?${q.toString()}`, {
+      const res = await fetch(`https://mini-project-2-mwwk.onrender.com/api/problems?${q.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const json = await res.json();

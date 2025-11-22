@@ -21,7 +21,7 @@ export default function Register() {
 
   const handleSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", {
+      const res = await axios.post("https://mini-project-2-mwwk.onrender.com/api/auth/signup", {
         username: values.username,
         email: values.email,
         password: values.password,

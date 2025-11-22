@@ -27,7 +27,7 @@ export default function TakeTest() {
     const fetchTest = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:5000/api/tests/${id}`, {
+        const res = await axios.get(`https://mini-project-2-mwwk.onrender.com/api/tests/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const t = res.data;
@@ -106,7 +106,7 @@ export default function TakeTest() {
       } else {
         payload = { answers: Object.entries(answers).map(([k, v]) => ({ index: Number(k), answer: v })), penalty, proctoringLog };
       }
-      const res = await axios.post(`http://localhost:5000/api/tests/${test._id}/submit`, payload, {
+      const res = await axios.post(`https://mini-project-2-mwwk.onrender.com/api/tests/${test._id}/submit`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setResult(res.data);
