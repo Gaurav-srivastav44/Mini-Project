@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 
-
+// 🔹 Auth Context
+import AuthProvider from "./context/AuthContext";
 
 // 🔹 Pages & Components
 import Navbar from "./components/Navbar";
@@ -22,16 +23,17 @@ import AdminTests from "./admin/tests";
 import TestResults from "./admin/test-results";
 import JoinTest from "./user/jointest";
 import Resources from "./user/Resources";
+import AdminResources from "./admin/Resources";
+import AdminDailyChallenges from "./admin/DailyChallenges";
 import Analytics from "./user/Analytics";
 import Leaderboard from "./user/Leaderboard";
 import ReviewSubmissions from "./admin/ReviewSubmissions";
 import UserAssignments from "./user/assignments";
 
-
 // Other Pages
 import MockTest from "./pages/mock-tests";
 import CreateTest from "./create/create-test";
-import Visualizer from "./pages/visualizer";
+import Visualizer from "./visualizer";
 import DailyChallenges from "./pages/daily-challenges";
 import Problems from "./pages/problems";
 import SolveProblem from "./pages/solve-problem";
@@ -52,13 +54,14 @@ const PrivateRoute = ({ children }) => {
 
 function AppWrapper() {
   const location = useLocation();
-
   const path = location.pathname;
-  const showFullNavbar = path === "/" || path === "/userdashboard" || path === "/admindashboard";
+
+  const showFullNavbar = path === "/";
+  const isAuthPage = path.startsWith("/auth") || path === "/login" || path === "/register";
 
   return (
     <>
-      {showFullNavbar ? <Navbar /> : <MiniBar />}
+      {showFullNavbar ? <Navbar /> : !isAuthPage && <MiniBar />}
 
       <Routes>
         {/* Home */}
@@ -86,7 +89,7 @@ function AppWrapper() {
         <Route path="/visualizer" element={<Visualizer />} />
         <Route path="/problems" element={<PrivateRoute><Problems /></PrivateRoute>} />
         <Route path="/problems/:id" element={<PrivateRoute><SolveProblem /></PrivateRoute>} />
-        <Route path="/jointest" element={<JoinTest />} /> 
+        <Route path="/jointest" element={<JoinTest />} />
         <Route path="/take-test/:id" element={<PrivateRoute><TakeTest /></PrivateRoute>} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/daily-challenges" element={<PrivateRoute><DailyChallenges /></PrivateRoute>} />
@@ -112,6 +115,12 @@ function AppWrapper() {
         <Route path="/assignments" element={<PrivateRoute><Assignments /></PrivateRoute>} />
         <Route path="/create-assignment" element={<PrivateRoute><CreateAssignment /></PrivateRoute>} />
 
+        {/* Resources */}
+        <Route path="/admin/resources" element={<PrivateRoute><AdminResources /></PrivateRoute>} />
+
+        {/* Admin Daily Challenges */}
+        <Route path="/admin/challenges" element={<PrivateRoute><AdminDailyChallenges /></PrivateRoute>} />
+
         {/* 404 */}
         <Route
           path="*"
@@ -128,8 +137,10 @@ function AppWrapper() {
 
 export default function App() {
   return (
-    <Router>
-      <AppWrapper />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppWrapper />
+      </Router>
+    </AuthProvider>
   );
 }

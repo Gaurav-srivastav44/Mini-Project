@@ -13,6 +13,7 @@ import leaderboardRoutes from "./routes/leaderboard.js";
 import analyticsRoutes from "./routes/analytics.js";
 import challengesRoutes from "./routes/challenges.js";
 import problemsRoutes from "./routes/problems.js";
+import resourcesRoutes from "./routes/resources.js";
 
 // DB Connection
 import connectDB from "./config/connectDB.js";
@@ -39,6 +40,7 @@ app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/challenges", challengesRoutes);
 app.use("/api/problems", problemsRoutes);
+app.use("/api/resources", resourcesRoutes);
 
 // Default route
 app.get("/", (req, res) => {

@@ -14,6 +14,7 @@ import {
   FaBars,
   FaTimes,
   FaHome,
+  FaBolt,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -82,8 +83,8 @@ export default function TeacherDashboard() {
     { title: "Assignments", icon: <FaTasks />, link: "/assignments" },
     { title: "Review Submissions", icon: <FaClipboardList />, link: "/review-submissions" },
     { title: "Leaderboard", icon: <FaTrophy />, link: "/leaderboard" },
-    { title: "Analytics", icon: <FaChartPie />, link: "/analytics" },
-    { title: "Resources", icon: <FaBookOpen />, link: "/resources" },
+    { title: "Resources", icon: <FaBookOpen />, link: "/admin/resources" },
+    { title: "Daily Challenges", icon: <FaBolt />, link: "/admin/challenges" },
   ];
 
   const features = [
@@ -111,17 +112,18 @@ export default function TeacherDashboard() {
       icon: <FaTrophy className="text-white text-4xl drop-shadow-md" />,
       link: "/leaderboard",
     },
-    {
-      title: "Analytics",
-      desc: "Monitor student performance trends and overall class metrics.",
-      icon: <FaChartPie className="text-white text-4xl drop-shadow-md" />,
-      link: "/analytics",
-    },
+    
     {
       title: "Resources",
       desc: "Provide learning materials, notes, or reference videos to students.",
       icon: <FaBookOpen className="text-white text-4xl drop-shadow-md" />,
-      link: "/resources",
+      link: "/admin/resources",
+    },
+    {
+      title: "Daily Challenges",
+      desc: "Create and manage daily challenges to keep students engaged.",
+      icon: <FaBolt className="text-white text-4xl drop-shadow-md" />,
+      link: "/admin/challenges",
     },
   ];
 

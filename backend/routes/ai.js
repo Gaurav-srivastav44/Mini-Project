@@ -1,9 +1,11 @@
 import express from "express";
 import fetch from "node-fetch";
+import authMiddleware from "../middleware/authMiddleware.js";
+import requireAdmin from "../middleware/requireAdmin.js";
 
 const router = express.Router();
 
-router.post("/generate-questions", async (req, res) => {
+router.post("/generate-questions", authMiddleware, requireAdmin, async (req, res) => {
   const { subject, difficulty, numberOfQuestions } = req.body;
 
   if (!subject || !difficulty || !numberOfQuestions) {
@@ -20,18 +22,19 @@ router.post("/generate-questions", async (req, res) => {
       {
         role: "system",
         content:
-          "You are an AI that generates exam questions ONLY in pure JSON format, no explanations or text outside JSON.",
+          "You generate exam MCQs ONLY in valid JSON array format. No markdown or explanations.",
       },
       {
         role: "user",
-        content: `Generate ${n} ${difficulty} multiple-choice questions on ${subject}.
-Each object should follow exactly this format:
-{
-  "question": "Question text",
-  "options": ["Option A", "Option B", "Option C", "Option D"],
-  "answer": "A"
-}
-Return a valid JSON array ONLY. Do not include extra text, markdown, or comments.`,
+        content: `Generate ${n} ${difficulty} level multiple-choice questions on ${subject}.
+Output MUST be a pure JSON array:
+[
+  {
+    "question": "...",
+    "options": ["A","B","C","D"],
+    "answer": "A"
+  }
+]`,
       },
     ];
 
@@ -39,15 +42,14 @@ Return a valid JSON array ONLY. Do not include extra text, markdown, or comments
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "HTTP-Referer": "http://localhost:5000",
         "X-Title": "EvalEra AI Question Generator",
       },
       body: JSON.stringify({
         model: "openai/gpt-3.5-turbo",
         messages,
-        temperature: 0.7,
-        max_tokens: 1000,
+        temperature: 0.6,
       }),
     });
 
@@ -56,28 +58,32 @@ Return a valid JSON array ONLY. Do not include extra text, markdown, or comments
 
     if (!text) {
       console.error("❌ Invalid AI response:", data);
-      return res.status(500).json({ error: "No response from AI" });
+      return res.status(500).json({ error: "No output from AI" });
     }
 
-    // 🧹 Clean unwanted wrappers like ```json or explanations
+    // cleanup
     text = text.replace(/```json|```/g, "").trim();
 
-    // Try parsing JSON safely
     let questions;
     try {
       questions = JSON.parse(text);
     } catch (err) {
-      console.error("❌ JSON parse error:", err);
-      console.error("Raw text:", text);
       return res.status(500).json({
         error: "AI returned invalid JSON",
-        raw: text, // helpful for debugging in Postman
+        raw: text,
       });
     }
 
+    // Normalize keys so database accepts them
+    questions = questions.map((q) => ({
+      question: q.question,
+      options: q.options,
+      correctAnswer: q.answer, // rename field
+    }));
+
     res.json({ questions });
   } catch (err) {
-    console.error("🔥 AI generation error:", err);
+    console.error("🔥 AI Generation Error:", err);
     res.status(500).json({ error: "Failed to generate questions" });
   }
 });
